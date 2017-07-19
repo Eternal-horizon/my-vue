@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<body>
+<div id="app">{{message}}</div>
+<div id="app-2" v-bind:title="info">sssss</div>
+<div id="app-3">
+    <div v-if="bool">哈哈</div>
+    <div v-if="boolean">呵呵what?</div>
+</div>
+<div id="app-4">
+    <ul>
+        <li v-for="todo in todos">
+            {{todo.text}}
+        </li>
+    </ul>
+   
+</div>
+<div id="app-5">
+    <p>{{mess}}</p>
+    <input type="text" v-model="mess" />
+</div>
+<div id="app-6">
+  <ol>
+    <!-- Now we provide each todo-item with the todo object    -->
+    <!-- it's representing, so that its content can be dynamic -->
+    <todo-item v-for="item in groceryList" v-bind:todo="item"></todo-item>
+  </ol>
+</div>
+<div id="app-7">
+  <p>{{ message }}</p>
+  <button v-on:click="reverseMessage">逆转消息</button>
+</div>
+<div id="example-4">
+  <input type="radio" id="one" value="One" v-model="picked">
+  <label for="one">One</label>
+  <br>
+  <input type="radio" id="two" value="Two" v-model="picked">
+  <label for="two">Two</label>
+  <br>
+  <span>Picked: {{ picked }}</span>
+</div>
+<input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+<label for="jack">Jack</label>
+<input type="checkbox" id="john" value="John" v-model="checkedNames">
+<label for="john">John</label>
+<input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+<label for="mike">Mike</label>
+<br>
+<span>Checked names: {{ checkedNames }}</span>
+<div id="classh" class="order" v-bind:class="{active:bool,'stress':ssccs}">设置class</div>
+<div id="ca" v-bind:class="classObject">设置class对象</div>
+<div id="bindc" v-bind:class="classj">设置class对象</div>
+<div id="bingds" v-bind:class="[activeClass, errorClass]">设置class数组</div>
+
+<script>
+new Vue({
+    el:"#bingds",
+    data: {
+      activeClass: 'active',
+      errorClass: 'text-danger'
+    }
+    
+})
+
+
+new Vue({
+    el:"#bindc",
+    data: {
+    isActive: true,
+    error: null
+},
+computed: {
+  classj: function () {
+    return {
+      active: this.isActive && !this.error,
+      'text-danger': this.error && this.error.type === 'fatal',
+    }
+  }
+}
+})
+new Vue({
+    el:"#ca",
+    data:{
+        classObject:{
+            active:true,
+            sjjj:true
+        }
+    }
+})
+new Vue({
+el:"#classh",
+data:{
+    bool:true,
+    ssccs:true
+    }
+})
+</script>
+<div id="sty" v-bind:style="{color:mycolor,fontSize:num+'px'}">设置style</div>
+
+<script>
+    new Vue({
+        el:"#sty",
+        data:{
+            mycolor:'#f00',
+            num:20
+        }
+    })
+</script>
+<div id="vif" v-if="ok">v-if</div>
+<div id="vshow" v-show="ok">v-if</div>
+
+<script>
+    new Vue({
+        el:"#vif",
+        data:{ok:true}
+    })
+     new Vue({
+        el:"#vshow",
+        data:{ok:true}
+    })
+</script>
+<div id="vfor">
+    <div v-for="tode in todes">{{tode.text}}</div>
+</div>
+<div>
+  <span v-for="n in 10">{{ n }} </span>
+</div>
+<div id="on" v-on:click="say('ss',$event)" >按钮</div>
+<script>
+    new Vue({
+        el:"#on",
+        data:{mess:"dhehhh"},
+        methods:{
+            say:function(message,e){
+                alert(this.mess);
+                alert(message);
+                alert(e.target.tagName);
+            }
+        }
+        
+    })
+</script>
+<script>
+    new Vue({
+  el: '#vfor',
+  data: {
+    todes:[
+        {text:'sss'},
+        {text:'sss'},
+        {text:'sss'}
+    ]
+  }
+})
+
+
+    new Vue({
+  el: '#example-4',
+  data: {
+    picked: ''
+  }
+})
+    var data = { a: 1 }
+    var vm = new Vue({
+      data: data
+    })
+    vm.a === data.a // -> true
+    // 设置属性也会影响到原始数据
+    vm.a = 2
+    data.a // -> 2
+    // ... 反之亦然
+    data.a = 3
+    vm.a // -> 3
+    var mange ={
+        message:'123'
+    }
+    new Vue({
+        el:"#app",
+        data:mange
+    })
+   new Vue({
+    el:"#app-2",
+    data:{
+        info:'sss'+new Date()
+    }
+   })
+   new Vue({
+     el:'#app-3',
+     data:{
+        bool:false,
+        boolean:true
+     }
+   })
+  
+   new Vue({
+    el:'#app-4',
+    data:{
+        todos:[{text:'哈哈'},
+          {text:'嘿嘿'},
+          {text:'呵呵'},           
+    ]
+    }
+ 
+   new Vue({
+      el:"#app-5",
+      data:{mess:'aa'}
+   })
+   
+  
+ var app7 = new Vue({
+  el: '#app-7',
+  data: {
+    message: 'Hello Vue.js!'
+  },
+  methods: {
+    reverseMessage: function () {
+      this.message = this.message.split('').reverse().join('')
+    }
+  }
+})  
+  Vue.component('todo-item', {
+      props: ['todo'],
+      template: '<li>{{ todo.text }}</li>'
+   })
+
+
+</script>
+
+</body>
+</html>
+
