@@ -38,6 +38,75 @@
   <p>{{ message }}</p>
   <button v-on:click="reverseMessage">逆转消息</button>
 </div>
+<script>
+
+    var data = { a: 1 }
+    var vm = new Vue({
+      data: data
+    })
+    vm.a === data.a // -> true
+    // 设置属性也会影响到原始数据
+    vm.a = 2
+    data.a // -> 2
+    // ... 反之亦然
+    data.a = 3
+    vm.a // -> 3
+    var mange ={
+        message:'shezhi'
+    }
+    
+    new Vue({
+        el:"#app",
+        data:mange
+    })
+    
+   new Vue({
+    el:"#app-2",
+    data:{
+        info:'sss'+new Date()
+    }
+   })
+   new Vue({
+     el:'#app-3',
+     data:{
+        bool:false,
+        boolean:true
+     }
+   })
+  
+   new Vue({
+    el:'#app-4',
+    data:{
+        todos:[{text:'哈哈'},
+          {text:'嘿嘿'},
+          {text:'呵呵'},           
+    ]
+    }
+    })
+   new Vue({
+      el:"#app-5",
+      data:{mess:'aa'}
+   })
+   
+  
+ var app7 = new Vue({
+  el: '#app-7',
+  data: {
+    message: 'Hello Vue.js!'
+  },
+  methods: {
+    reverseMessage: function () {
+      this.message = this.message.split('').reverse().join('')
+    }
+  }
+})  
+  Vue.component('todo-item', {
+      props: ['todo'],
+      template: '<li>{{ todo.text }}</li>'
+   })
+</script>
+
+
 <div id="example-4">
   <input type="radio" id="one" value="One" v-model="picked">
   <label for="one">One</label>
@@ -47,6 +116,50 @@
   <br>
   <span>Picked: {{ picked }}</span>
 </div>
+<script>
+     new Vue({
+      el: '#example-4',
+      data: {
+        picked: 'dddd'
+      }
+    })
+</script>
+
+<!-- 我的测试 -->
+<div id="list">
+    <span>{{set}}</span>
+    <input type="text" v-model="set" style="width:300px;height:30px;border;1px solid #ddd;"/>
+    <p v-bind:title="title" v-if="bool" v-for="list in lists">
+        <span v-on:click="hide">{{list.text}}</span>
+    </p>
+</div>
+<script>
+    new Vue({
+        el:"#list",
+        data:{
+            set:"名称",
+            title:"案例",
+            bool:true,
+            lists:[
+                {text:'商城'},
+                {text:'官网'},
+                {text:'手机'}
+            ]
+        },
+        methods:{
+            hide:function(e){
+                console.log(e);
+                console.log(e.target.innerText);
+                if(e.target.innerText=="手机"){
+                   this.bool=false
+                }
+            }
+        }
+        
+    })
+</script>
+
+
 <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
 <label for="jack">Jack</label>
 <input type="checkbox" id="john" value="John" v-model="checkedNames">
@@ -124,14 +237,11 @@ data:{
     })
      new Vue({
         el:"#vshow",
-        data:{ok:true}
+        data:{ok:false}
     })
 </script>
 <div id="vfor">
     <div v-for="tode in todes">{{tode.text}}</div>
-</div>
-<div>
-  <span v-for="n in 10">{{ n }} </span>
 </div>
 <div id="on" v-on:click="say('ss',$event)" >按钮</div>
 <script>
@@ -160,79 +270,115 @@ data:{
   }
 })
 
+</script>
+<div id="app-7">
+  <ol>
+    <todo-item v-for="item in groceryList" v-bind:todo="item" v-bind:key="item.id">
+    </todo-item>
+  </ol>
+</div>
 
-    new Vue({
-  el: '#example-4',
-  data: {
-    picked: ''
-  }
-})
-    var data = { a: 1 }
-    var vm = new Vue({
-      data: data
-    })
-    vm.a === data.a // -> true
-    // 设置属性也会影响到原始数据
-    vm.a = 2
-    data.a // -> 2
-    // ... 反之亦然
-    data.a = 3
-    vm.a // -> 3
-    var mange ={
-        message:'123'
-    }
-    new Vue({
-        el:"#app",
-        data:mange
-    })
-   new Vue({
-    el:"#app-2",
-    data:{
-        info:'sss'+new Date()
-    }
-   })
-   new Vue({
-     el:'#app-3',
-     data:{
-        bool:false,
-        boolean:true
-     }
-   })
-  
-   new Vue({
-    el:'#app-4',
-    data:{
-        todos:[{text:'哈哈'},
-          {text:'嘿嘿'},
-          {text:'呵呵'},           
-    ]
-    }
- 
-   new Vue({
-      el:"#app-5",
-      data:{mess:'aa'}
-   })
-   
-  
- var app7 = new Vue({
-  el: '#app-7',
-  data: {
-    message: 'Hello Vue.js!'
-  },
-  methods: {
-    reverseMessage: function () {
-      this.message = this.message.split('').reverse().join('')
-    }
-  }
-})  
-  Vue.component('todo-item', {
+<script>
+    Vue.component('todo-item', {
       props: ['todo'],
       template: '<li>{{ todo.text }}</li>'
-   })
+    })
+    var app7 = new Vue({
+      el: '#app-7',
+      data: {
+        groceryList: [
+          { id: 0, text: '蔬菜' },
+          { id: 1, text: '奶酪' },
+          { id: 2, text: '随便其他什么人吃的东西' }
+          
+        ]
+      }
+    })
+</script>
+<div id="example">
+  <p>Original message: "{{ message }}"</p>
+  <p>Computed reversed message: "{{ reversedMessage }}"</p>
+  <input type="text" v-model="message" style="width:300px;height:30px;border:1px solid #ddd;"/>
+</div>
+<script>
+    var vm = new Vue({
+      el: '#example',
+      data: {
+        message: 'Hello'
+      },
+      computed: {
+        // 计算属性的 getter
+        reversedMessage: function () {
+          // `this` 指向 vm 实例
+          
+          return this.message.split('').reverse().join('')
+        }
+      }
+    })
+</script>
+<div id="static" class="static"
+     v-bind:class="{ active: isActive, 'text-danger': hasError }">
+</div>
+<script>
+new Vue({
+    el:'#static',
+    data:{
+    isActive:true,
+    hasError:false
+    }
+})</script>
 
+<div id="demo">
+  <button v-on:click="show = !show">
+    Toggle
+  </button>
+  <transition name="fade">
+    <p v-if="show">hello</p>
+  </transition>
+</div>
 
+<script>
+    new Vue({
+        el:'#demo',
+        data:{
+            show:true,
+        
+        }
+    })
+    
+</script>
+<style>
+    .fade-enter-active, .fade-leave-active {
+      transition: opacity .5s
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
+      opacity: 0
+    }
+</style>
+<div id="show" v-if="show">显示1</div>
+<div v-else-if="">显示2</div>
+<div v-else>显示2</div>
+<script>
+new Vue({
+    el="#show",
+    data:{
+       show:true
+    }
+})
 </script>
 
+<ul id="item" >
+    <li v-for="(item,index) in items">{{index}}{{item.text}}</li>
+</ul>
+<script>
+    new Vue({
+        el:"#item",
+        data:[{text:"ha"},
+            {text:"hei"},  
+            {text:"aa"} 
+            ] 
+    })
+</script>
 </body>
 </html>
 
